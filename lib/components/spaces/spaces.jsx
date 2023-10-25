@@ -52,7 +52,7 @@ export const Component = ({ spaces, windows, SIP, displayIndex }) => {
 
           return (
             <Space
-              key={key}
+              key={label?.length ? label : index}
               display={display}
               space={space}
               windows={windows}

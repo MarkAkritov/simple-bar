@@ -30,7 +30,7 @@ import * as Settings from "./lib/settings";
 const refreshFrequency = false;
 
 const settings = Settings.get();
-const { yabaiPath = "/usr/local/bin/yabai", shell } = settings.global;
+const { yabaiPath = "/opt/homebrew/bin/yabai", shell } = settings.global;
 const { processWidget } = settings.widgets;
 const { displaySkhdMode } = settings.process;
 
@@ -121,25 +121,28 @@ const render = ({ output, error }) => {
           skhdMode={skhdMode}
         />
       )}
+      {/* <div className="simple-bar__data">
+        <Spotify.Widget/>
+      </div> */}
       <div className="simple-bar__data">
         <Settings.Wrapper />
         <UserWidgets />
         <Zoom.Widget />
         <BrowserTrack.Widget />
-        <Spotify.Widget />
         <Crypto.Widget />
         <Stock.Widget />
         <Music.Widget />
         <Mpd.Widget />
+        <ViscosityVPN.Widget />
         <Weather.Widget />
-        <Battery.Widget />
+        <Spotify.Widget />
         <Mic.Widget />
         <Sound.Widget />
-        <ViscosityVPN.Widget />
+        <Battery.Widget />
         <Wifi.Widget />
         <Keyboard.Widget />
-        <DateDisplay.Widget />
         <Time.Widget />
+        <DateDisplay.Widget />
         <Dnd.Widget />
       </div>
     </div>

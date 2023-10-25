@@ -39,14 +39,20 @@ const Window = ({ window }) => {
   });
   const onClick = (e) => {
     !displayOnlyCurrent && Utils.clickEffect(e);
-    Yabai.focusWindow(id);
+    // Yabai.focusWindow(id);
+    if (hasFocus) {
+      Yabai.swapRecentWindow();
+    } else {
+      Yabai.focusWindow(id);
+    }
   };
   const onMouseEnter = () =>
     Utils.startSliding(ref.current, ".process__inner", ".process__name");
   const onMouseLeave = () => Utils.stopSliding(ref.current, ".process__name");
 
   const cleanedUpName =
-    appName !== title && title.length ? `${appName} / ${title}` : appName;
+    // appName !== title && title.length ? `${appName} / ${title}` : appName;
+    appName !== title && title.length ? `${appName}: ${title}` : appName;
   const processName = hideWindowTitle ? appName : cleanedUpName;
 
   return (

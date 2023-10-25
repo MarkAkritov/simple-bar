@@ -98,6 +98,8 @@ export const Widget = () => {
     </div>
   );
 
+  const fillerWidth = percentage / 100;
+
   return (
     <DataWidget.Widget
       classes={classes}
@@ -109,6 +111,10 @@ export const Widget = () => {
         <Icons.Coffee className="battery__caffeinate-icon" />
       )}
       {percentage}%
+      {<div
+        className="battery__filler"
+        style={{ transform: `scaleX(${fillerWidth})` }}
+      />}
     </DataWidget.Widget>
   );
 };
