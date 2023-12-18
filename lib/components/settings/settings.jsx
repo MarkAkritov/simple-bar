@@ -127,7 +127,7 @@ const LAST_CURRENT_TAB = "simple-bar-last-current-settings-tab";
 
 const getLastCurrentTab = () => {
   const storedLastCurrentTab = window.sessionStorage.getItem(LAST_CURRENT_TAB);
-  if (storedLastCurrentTab) return parseInt(storedLastCurrentTab);
+  if (storedLastCurrentTab) return parseInt(storedLastCurrentTab, 10);
   return 0;
 };
 
@@ -209,7 +209,9 @@ export const Component = ({ closeSettings }) => {
       fileExists = Boolean(
         await Uebersicht.run(`ls ${EXTERNAL_CONFIG_FILE_PATH}`)
       );
-    } catch (e) {}
+    } catch (e) {
+      //
+    }
     if (!fileExists) return;
     const externalConfig = JSON.parse(
       await Uebersicht.run(`cat ${EXTERNAL_CONFIG_FILE_PATH}`)
@@ -383,7 +385,7 @@ export const Component = ({ closeSettings }) => {
             onClick={onRefreshClick}
             disabled={!pendingChanges}
           >
-            Refresh simple-bar
+            Confirm changes and refresh simple-bar
           </button>
         </div>
       </div>

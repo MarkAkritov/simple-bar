@@ -8,12 +8,27 @@ import * as Settings from "../../settings";
 export { spacesStyles as styles } from "../../styles/components/spaces/spaces";
 
 const settings = Settings.get();
-const { displayStickyWindowsSeparately, spacesExclusions, exclusionsAsRegex } =
-  settings.spacesDisplay;
+const { spacesDisplay, process } = settings;
+const {
+  displayStickyWindowsSeparately,
+  spacesExclusions,
+  exclusionsAsRegex,
+  hideCreateSpaceButton,
+  showOnDisplay,
+} = spacesDisplay;
 
 export const Component = ({ spaces, windows, SIP, displayIndex }) => {
-  if (!spaces && !windows)
-    return <div className="spaces-display spaces-display--empty" />;
+  const visible = Utils.isVisibleOnDisplay(displayIndex, showOnDisplay);
+  const isProcessVisible = Utils.isVisibleOnDisplay(
+    displayIndex,
+    process.showOnDisplay
+  );
+
+  if (!visible) return null;
+
+  if (!spaces && !windows) {
+    return <div className="spaces spaces--empty" />;
+  }
 
   const displays = [...new Set(spaces.map((space) => space.display))];
   const SIPDisabled = SIP !== "System Integrity Protection status: enabled.";
@@ -63,10 +78,12 @@ export const Component = ({ spaces, windows, SIP, displayIndex }) => {
             />
           );
         })}
-        {SIPDisabled && (
+        {SIPDisabled && !hideCreateSpaceButton ? (
           <button className="spaces__add" onClick={onClick}>
             <Icons.Add />
           </button>
+        ) : (
+          isProcessVisible && <div className="spaces__end-separator" />
         )}
       </div>
     );

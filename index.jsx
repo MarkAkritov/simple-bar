@@ -1,40 +1,44 @@
-import UserWidgets from "./lib/components/data/user-widgets.jsx";
-import * as Error from "./lib/components/error.jsx";
-import * as Spaces from "./lib/components/spaces/spaces.jsx";
-import * as Process from "./lib/components/spaces/process.jsx";
-import * as Variables from "./lib/styles/core/variables";
-import * as Base from "./lib/styles/core/base";
-import * as Zoom from "./lib/components/data/zoom.jsx";
-import * as Time from "./lib/components/data/time.jsx";
-import * as DateDisplay from "./lib/components/data/date-display.jsx";
-import * as Weather from "./lib/components/data/weather.jsx";
 import * as Battery from "./lib/components/data/battery.jsx";
-import * as Sound from "./lib/components/data/sound.jsx";
-import * as Mic from "./lib/components/data/mic.jsx";
-import * as Wifi from "./lib/components/data/wifi.jsx";
-import * as ViscosityVPN from "./lib/components/data/viscosity-vpn.jsx";
-import * as Keyboard from "./lib/components/data/keyboard.jsx";
-import * as Spotify from "./lib/components/data/spotify.jsx";
-import * as Crypto from "./lib/components/data/crypto.jsx";
-import * as Stock from "./lib/components/data/stock.jsx";
-import * as Music from "./lib/components/data/music.jsx";
-import * as Mpd from "./lib/components/data/mpd.jsx";
 import * as BrowserTrack from "./lib/components/data/browser-track.jsx";
-import * as Dnd from "./lib/components/data/dnd.jsx";
-import * as Specter from "./lib/components/data/specter.jsx";
+import * as Cpu from "./lib/components/data/cpu.jsx";
+import * as Crypto from "./lib/components/data/crypto.jsx";
 import * as DataWidgetLoader from "./lib/components/data/data-widget-loader.jsx";
 import * as DataWidget from "./lib/components/data/data-widget.jsx";
-import * as Utils from "./lib/utils";
+import * as DateDisplay from "./lib/components/data/date-display.jsx";
+import * as Graph from "./lib/components/data/graph.jsx";
+import * as Keyboard from "./lib/components/data/keyboard.jsx";
+import * as Mic from "./lib/components/data/mic.jsx";
+import * as Mpd from "./lib/components/data/mpd.jsx";
+import * as Music from "./lib/components/data/music.jsx";
+import * as Netstats from "./lib/components/data/netstats.jsx";
+import * as Sound from "./lib/components/data/sound.jsx";
+import * as Specter from "./lib/components/data/specter.jsx";
+import * as Spotify from "./lib/components/data/spotify.jsx";
+import * as Stock from "./lib/components/data/stock.jsx";
+import * as Time from "./lib/components/data/time.jsx";
+import UserWidgets from "./lib/components/data/user-widgets.jsx";
+import * as ViscosityVPN from "./lib/components/data/viscosity-vpn.jsx";
+import * as Weather from "./lib/components/data/weather.jsx";
+import * as Wifi from "./lib/components/data/wifi.jsx";
+import * as Zoom from "./lib/components/data/zoom.jsx";
+import * as Error from "./lib/components/error.jsx";
+import * as Process from "./lib/components/spaces/process.jsx";
+import * as Spaces from "./lib/components/spaces/spaces.jsx";
 import * as Settings from "./lib/settings";
+import * as Base from "./lib/styles/core/base";
+import * as Variables from "./lib/styles/core/variables";
+import * as Utils from "./lib/utils";
 
 const refreshFrequency = false;
 
 const settings = Settings.get();
 const { yabaiPath = "/opt/homebrew/bin/yabai", shell } = settings.global;
 const { processWidget } = settings.widgets;
-const { displaySkhdMode } = settings.process;
+const { hideWindowTitle, displayOnlyIcon, displaySkhdMode } = settings.process;
 
-const command = `${shell} simple-bar/lib/scripts/init.sh ${yabaiPath} ${displaySkhdMode}`;
+const enableTitleChangedSignal = hideWindowTitle || displayOnlyIcon;
+const args = `${yabaiPath} ${displaySkhdMode} ${enableTitleChangedSignal}`;
+const command = `${shell} simple-bar/lib/scripts/init.sh ${args}`;
 
 Utils.injectStyles("simple-bar-index-styles", [
   Variables.styles,
@@ -48,6 +52,8 @@ Utils.injectStyles("simple-bar-index-styles", [
   Zoom.styles,
   Time.styles,
   Weather.styles,
+  Netstats.styles,
+  Cpu.styles,
   Crypto.styles,
   Stock.styles,
   Battery.styles,
@@ -60,8 +66,8 @@ Utils.injectStyles("simple-bar-index-styles", [
   Music.styles,
   Mpd.styles,
   BrowserTrack.styles,
-  Dnd.styles,
   Specter.styles,
+  Graph.styles,
   DataWidgetLoader.styles,
 ]);
 
@@ -94,7 +100,7 @@ const render = ({ output, error }) => {
 
   const { displays, shadow, skhdMode, SIP, spaces, windows } = data;
 
-  const displayId = parseInt(window.location.pathname.replace("/", ""));
+  const displayId = parseInt(window.location.pathname.replace("/", ""), 10);
   const { index: displayIndex } = displays.find((d) => {
     return d.id === displayId;
   });
@@ -126,24 +132,25 @@ const render = ({ output, error }) => {
       </div> */}
       <div className="simple-bar__data">
         <Settings.Wrapper />
-        <UserWidgets />
-        <Zoom.Widget />
-        <BrowserTrack.Widget />
-        <Crypto.Widget />
-        <Stock.Widget />
-        <Music.Widget />
-        <Mpd.Widget />
-        <ViscosityVPN.Widget />
-        <Weather.Widget />
-        <Spotify.Widget />
-        <Mic.Widget />
-        <Sound.Widget />
-        <Battery.Widget />
-        <Wifi.Widget />
-        <Keyboard.Widget />
-        <Time.Widget />
-        <DateDisplay.Widget />
-        <Dnd.Widget />
+        <UserWidgets display={displayIndex} />
+        <Zoom.Widget display={displayIndex} />
+        <BrowserTrack.Widget display={displayIndex} />
+        <Crypto.Widget display={displayIndex} />
+        <Stock.Widget display={displayIndex} />
+        <Music.Widget display={displayIndex} />
+        <Mpd.Widget display={displayIndex} />
+        <ViscosityVPN.Widget display={displayIndex} />
+        <Weather.Widget display={displayIndex} />
+        <Spotify.Widget display={displayIndex} />
+        <Netstats.Widget display={displayIndex} />
+        <Mic.Widget display={displayIndex} />
+        <Sound.Widget display={displayIndex} />
+        <Battery.Widget display={displayIndex} />
+        <Cpu.Widget display={displayIndex} />
+        <Wifi.Widget display={displayIndex} />
+        <Keyboard.Widget display={displayIndex} />
+        <Time.Widget display={displayIndex} />
+        <DateDisplay.Widget display={displayIndex} />
       </div>
     </div>
   );

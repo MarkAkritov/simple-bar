@@ -55,25 +55,28 @@ const Window = ({ window }) => {
     appName !== title && title.length ? `${appName}: ${title}` : appName;
   const processName = hideWindowTitle ? appName : cleanedUpName;
 
+  const showStackIndex =
+    displayStackIndex &&
+    (!displayOnlyCurrentStack || isFocused) &&
+    stackIndex > 0;
+
   return (
     <button
       ref={ref}
       className={classes}
       onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onMouseEnter={displayOnlyIcon ? undefined : onMouseEnter}
+      onMouseLeave={displayOnlyIcon ? undefined : onMouseLeave}
     >
       <Icon className="process__icon" />
-      <span className="process__inner">
-        {!displayOnlyIcon && (
+      {!displayOnlyIcon && (
+        <span className="process__inner">
           <span className="process__name">{processName}</span>
-        )}
-      </span>
-      {displayStackIndex &&
-        (!displayOnlyCurrentStack || isFocused) &&
-        stackIndex > 0 && (
-          <span className="process__stack-index">{stackIndex}</span>
-        )}
+        </span>
+      )}
+      {showStackIndex && (
+        <span className="process__stack-index">{stackIndex}</span>
+      )}
     </button>
   );
 };
