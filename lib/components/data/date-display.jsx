@@ -66,7 +66,7 @@ export const Widget = ({ display }) => {
   return (
     <DataWidget.Widget
       classes="date-display"
-      Icon={Icons.Date}
+      // Icon={Icons.Date}
       onClick={onClick}
     >
       {now}

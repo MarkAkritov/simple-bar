@@ -67,7 +67,7 @@ export const Widget = ({ display }) => {
   return (
     <DataWidget.Widget
       classes="time"
-      Icon={Icons.Clock}
+      // Icon={Icons.Clock}
       onClick={onClick}
       disableSlider
     >
