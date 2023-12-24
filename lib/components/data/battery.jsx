@@ -3,54 +3,46 @@ import * as DataWidget from "./data-widget.jsx";
 import * as DataWidgetLoader from "./data-widget-loader.jsx";
 import * as Icons from "../icons.jsx";
 import useWidgetRefresh from "../../hooks/use-widget-refresh";
+import useServerSocket from "../../hooks/use-server-socket";
+import { useSimpleBarContext } from "../context.jsx";
 import * as Utils from "../../utils";
-import * as Settings from "../../settings";
 
 export { batteryStyles as styles } from "../../styles/components/data/battery";
 
-const settings = Settings.get();
-const { widgets, batteryWidgetOptions } = settings;
-const { batteryWidget } = widgets;
-const {
-  refreshFrequency,
-  toggleCaffeinateOnClick,
-  caffeinateOption,
-  showOnDisplay,
-} = batteryWidgetOptions;
+const { React } = Uebersicht;
 
 const DEFAULT_REFRESH_FREQUENCY = 10000;
-const REFRESH_FREQUENCY = Settings.getRefreshFrequency(
-  refreshFrequency,
-  DEFAULT_REFRESH_FREQUENCY
-);
 
-const getTransform = (value) => {
-  let transform = `0.${value}`;
-  if (value === 100) transform = "1";
-  if (value < 10) transform = `0.0${value}`;
-  return `scaleX(${transform})`;
-};
+export const Widget = React.memo(() => {
+  const { displayIndex, settings } = useSimpleBarContext();
+  const { widgets, batteryWidgetOptions } = settings;
+  const { batteryWidget } = widgets;
+  const {
+    refreshFrequency,
+    toggleCaffeinateOnClick,
+    caffeinateOption,
+    showOnDisplay,
+  } = batteryWidgetOptions;
 
-const toggleCaffeinate = async (system, caffeinate, option) => {
-  const command =
-    system === "x86_64" ? "caffeinate" : "arch -arch arm64 caffeinate";
-  if (!caffeinate.length) {
-    Uebersicht.run(`${command} ${option} &`);
-    Utils.notification("Enabling caffeinate...");
-  } else {
-    await Uebersicht.run("pkill -f caffeinate");
-    Utils.notification("Disabling caffeinate...");
-  }
-};
-
-export const Widget = ({ display }) => {
   const visible =
-    Utils.isVisibleOnDisplay(display, showOnDisplay) && batteryWidget;
+    Utils.isVisibleOnDisplay(displayIndex, showOnDisplay) && batteryWidget;
 
-  const [state, setState] = Uebersicht.React.useState();
-  const [loading, setLoading] = Uebersicht.React.useState(visible);
+  const refresh = React.useMemo(
+    () =>
+      Utils.getRefreshFrequency(refreshFrequency, DEFAULT_REFRESH_FREQUENCY),
+    [refreshFrequency]
+  );
 
-  const getBattery = async () => {
+  const [state, setState] = React.useState();
+  const [loading, setLoading] = React.useState(visible);
+
+  const resetWidget = () => {
+    setState(undefined);
+    setLoading(false);
+  };
+
+  const getBattery = React.useCallback(async () => {
+    if (!visible) return;
     const [system, percentage, status, caffeinate] = await Promise.all([
       Utils.getSystem(),
       Uebersicht.run(
@@ -68,9 +60,10 @@ export const Widget = ({ display }) => {
       caffeinate: Utils.cleanupOutput(caffeinate),
     });
     setLoading(false);
-  };
+  }, [visible]);
 
-  useWidgetRefresh(visible, getBattery, REFRESH_FREQUENCY);
+  useServerSocket("battery", visible, getBattery, resetWidget);
+  useWidgetRefresh(visible, getBattery, refresh);
 
   if (loading) return <DataWidgetLoader.Widget className="battery" />;
   if (!state) return null;
@@ -124,4 +117,25 @@ export const Widget = ({ display }) => {
       />}
     </DataWidget.Widget>
   );
-};
+});
+
+Widget.displayName = "Battery";
+
+function getTransform(value) {
+  let transform = `0.${value}`;
+  if (value === 100) transform = "1";
+  if (value < 10) transform = `0.0${value}`;
+  return `scaleX(${transform})`;
+}
+
+async function toggleCaffeinate(system, caffeinate, option) {
+  const command =
+    system === "x86_64" ? "caffeinate" : "arch -arch arm64 caffeinate";
+  if (!caffeinate.length) {
+    Uebersicht.run(`${command} ${option} &`);
+    Utils.notification("Enabling caffeinate...");
+  } else {
+    await Uebersicht.run("pkill -f caffeinate");
+    Utils.notification("Disabling caffeinate...");
+  }
+}

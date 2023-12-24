@@ -4,24 +4,7 @@ import * as Utils from "../../utils";
 
 export { dataWidgetStyles as styles } from "../../styles/components/data/data-widget";
 
-const getTag = (onClick, href) => {
-  if (href) return "a";
-  if (onClick) return "button";
-  return "div";
-};
-
-const isMiddleClick = (e) => {
-  return e.button === 1 || e["button&2"] === 1;
-};
-
-const Inner = ({ disableSlider, children }) => {
-  if (disableSlider) return children;
-  return (
-    <div className="data-widget__inner">
-      <div className="data-widget__slider">{children}</div>
-    </div>
-  );
-};
+const { React } = Uebersicht;
 
 export const Widget = ({
   Icon,
@@ -35,7 +18,7 @@ export const Widget = ({
   showSpecter,
   children,
 }) => {
-  const ref = Uebersicht.React.useRef();
+  const ref = React.useRef();
   const Tag = getTag(onClick, href);
   const dataWidgetClasses = Utils.classnames("data-widget", classes, {
     "data-widget--clickable": onClick,
@@ -47,14 +30,17 @@ export const Widget = ({
     if (action) action(e);
   };
 
-  const onMouseEnter = () =>
+  const onMouseEnter = () => {
     Utils.startSliding(
       ref.current,
       ".data-widget__inner",
       ".data-widget__slider"
     );
-  const onMouseLeave = () =>
+  };
+
+  const onMouseLeave = () => {
     Utils.stopSliding(ref.current, ".data-widget__slider");
+  };
 
   return (
     <Tag
@@ -73,3 +59,22 @@ export const Widget = ({
     </Tag>
   );
 };
+
+function Inner({ disableSlider, children }) {
+  if (disableSlider) return children;
+  return (
+    <div className="data-widget__inner">
+      <div className="data-widget__slider">{children}</div>
+    </div>
+  );
+}
+
+function getTag(onClick, href) {
+  if (href) return "a";
+  if (onClick) return "button";
+  return "div";
+}
+
+function isMiddleClick(e) {
+  return e.button === 1 || e["button&2"] === 1;
+}
