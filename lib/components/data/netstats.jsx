@@ -1,7 +1,7 @@
 import * as Uebersicht from "uebersicht";
 import useWidgetRefresh from "../../hooks/use-widget-refresh.js";
 import useServerSocket from "../../hooks/use-server-socket";
-import { useSimpleBarContext } from "../context.jsx";
+import { useSimpleBarContext } from "../simple-bar-context.jsx";
 import * as Icons from "../icons.jsx";
 import * as Utils from "../../utils.js";
 

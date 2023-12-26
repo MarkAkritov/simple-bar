@@ -4,13 +4,15 @@ import * as DataWidgetLoader from "./data-widget-loader.jsx";
 import * as Icons from "../icons.jsx";
 import useWidgetRefresh from "../../hooks/use-widget-refresh";
 import useServerSocket from "../../hooks/use-server-socket";
-import { useSimpleBarContext } from "../context.jsx";
+import { useSimpleBarContext } from "../simple-bar-context.jsx";
 import * as Settings from "../../settings";
 import * as Utils from "../../utils";
 
 const { React } = Uebersicht;
 
-export default function UserWidgets() {
+export default React.memo(UserWidgets);
+
+function UserWidgets() {
   const { settings } = useSimpleBarContext();
   const { userWidgetsList } = settings.userWidgets;
 
@@ -19,6 +21,8 @@ export default function UserWidgets() {
     <UserWidget key={key} index={key} widget={userWidgetsList[key]} />
   ));
 }
+
+UserWidgets.displayName = "UserWidgets";
 
 const UserWidget = React.memo(({ index, widget }) => {
   const { displayIndex, settings } = useSimpleBarContext();
