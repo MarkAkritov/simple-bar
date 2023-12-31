@@ -28,6 +28,7 @@ import * as Stock from "./lib/components/data/stock.jsx";
 import * as ViscosityVPN from "./lib/components/data/viscosity-vpn.jsx";
 import * as Wifi from "./lib/components/data/wifi.jsx";
 import * as Settings from "./lib/settings";
+import * as Utils from "./lib/utils.js"
 import YabaiContextProvider from "./lib/components/yabai-context.jsx";
 
 const refreshFrequency = false;
@@ -136,14 +137,14 @@ const render = ({ output, error }) => {
           <Weather.Widget />
           <Netstats.Widget />
           <Cpu.Widget />
-          <Battery.Widget />
-          <Mic.Widget />
-          <Sound.Widget />
           <ViscosityVPN.Widget />
           <Wifi.Widget />
           <Keyboard.Widget />
-          <DateDisplay.Widget />
+          <Mic.Widget />
+          <Sound.Widget />
+          <Battery.Widget />
           <Time.Widget />
+          <DateDisplay.Widget />
         </div>
       </div>
     </SimpleBarContextProvider>
