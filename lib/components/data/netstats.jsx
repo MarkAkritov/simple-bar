@@ -19,6 +19,8 @@ export const Widget = React.memo(() => {
   const { refreshFrequency, showOnDisplay, displayAsGraph } =
     netstatsWidgetOptions;
 
+  const isDisabled = React.useRef(false);
+
   const refresh = React.useMemo(
     () =>
       Utils.getRefreshFrequency(refreshFrequency, DEFAULT_REFRESH_FREQUENCY),
@@ -35,6 +37,7 @@ export const Widget = React.memo(() => {
   const resetWidget = () => {
     setState(undefined);
     setLoading(false);
+    setGraph([]);
   };
 
   const getNetstats = React.useCallback(async () => {
@@ -43,6 +46,9 @@ export const Widget = React.memo(() => {
       const output = await Uebersicht.run(
         `bash ./simple-bar/lib/scripts/netstats.sh 2>&1`
       );
+      if (!visible || isDisabled.current) {
+        return;
+      }
       const data = Utils.cleanupOutput(output);
       const json = JSON.parse(data);
       setState(json);
@@ -54,6 +60,10 @@ export const Widget = React.memo(() => {
       setTimeout(getNetstats, 1000);
     }
   }, [displayAsGraph, setGraph, visible]);
+
+  React.useEffect(() => {
+    isDisabled.current = !visible;
+  }, [visible]);
 
   useServerSocket("netstats", visible, getNetstats, resetWidget);
   useWidgetRefresh(visible, getNetstats, refresh);

@@ -6,7 +6,7 @@ import * as Yabai from "../../yabai";
 
 const { React } = Uebersicht;
 
-const Window = ({ window }) => {
+export default function Window({ window }) {
   const { settings } = useSimpleBarContext();
   const ref = React.useRef();
   const {
@@ -26,18 +26,18 @@ const Window = ({ window }) => {
     title,
     id,
   } = window;
+
+  const isFocused = hasFocus ?? __legacyHasFocus;
+
   if (
     (isMinimized ?? __legacyIsMinimized) ||
-    (displayOnlyCurrent && !(hasFocus ?? __legacyHasFocus))
-  )
+    (displayOnlyCurrent && !isFocused)
+  ) {
     return null;
-  const isFocused = hasFocus ?? __legacyHasFocus;
+  }
+
   const Icon = AppIcons.apps[appName] || AppIcons.apps.Default;
-  const classes = Utils.classnames("process__window", {
-    "process__window--focused": !displayOnlyCurrent && isFocused,
-    "process__window--only-current": displayOnlyCurrent,
-    "process__window--only-icon": displayOnlyIcon,
-  });
+
   const onClick = (e) => {
     !displayOnlyCurrent && Utils.clickEffect(e);
     // Yabai.focusWindow(id);
@@ -47,9 +47,20 @@ const Window = ({ window }) => {
       Yabai.focusWindow(id);
     }
   };
-  const onMouseEnter = () =>
+
+  const onMouseEnter = () => {
     Utils.startSliding(ref.current, ".process__inner", ".process__name");
-  const onMouseLeave = () => Utils.stopSliding(ref.current, ".process__name");
+  };
+
+  const onMouseLeave = () => {
+    Utils.stopSliding(ref.current, ".process__name");
+  };
+
+  const classes = Utils.classNames("process__window", {
+    "process__window--focused": !displayOnlyCurrent && isFocused,
+    "process__window--only-current": displayOnlyCurrent,
+    "process__window--only-icon": displayOnlyIcon,
+  });
 
   const cleanedUpName =
     // appName !== title && title.length ? `${appName} / ${title}` : appName;
@@ -80,6 +91,4 @@ const Window = ({ window }) => {
       )}
     </button>
   );
-};
-
-export default Window;
+}
