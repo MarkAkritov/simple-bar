@@ -1,6 +1,7 @@
-import UserWidgets from "./lib/components/data/user-widgets.jsx";
 import * as Error from "./lib/components/error.jsx";
 import SimpleBarContextProvider from "./lib/components/simple-bar-context.jsx";
+import YabaiContextProvider from "./lib/components/yabai-context.jsx";
+import UserWidgets from "./lib/components/data/user-widgets.jsx";
 import * as Spaces from "./lib/components/spaces/spaces.jsx";
 import * as Process from "./lib/components/spaces/process.jsx";
 import * as Variables from "./lib/styles/core/variables";
@@ -29,16 +30,22 @@ import * as ViscosityVPN from "./lib/components/data/viscosity-vpn.jsx";
 import * as Wifi from "./lib/components/data/wifi.jsx";
 import * as Settings from "./lib/settings";
 import * as Utils from "./lib/utils.js"
-import YabaiContextProvider from "./lib/components/yabai-context.jsx";
 
 const refreshFrequency = false;
 
 const settings = Settings.get();
-const { yabaiPath = "/opt/homebrew/bin/yabai", shell } = settings.global;
+const {
+  yabaiPath = "/usr/local/bin/yabai",
+  shell,
+  enableServer,
+  yabaiServerRefresh,
+} = settings.global;
 const { hideWindowTitle, displayOnlyIcon, displaySkhdMode } = settings.process;
 
+const disableSignals = enableServer && yabaiServerRefresh;
 const enableTitleChangedSignal = hideWindowTitle || displayOnlyIcon;
-const args = `${yabaiPath} ${displaySkhdMode} ${enableTitleChangedSignal}`;
+
+const args = `${yabaiPath} ${displaySkhdMode} ${disableSignals} ${enableTitleChangedSignal}`;
 const command = `${shell} simple-bar/lib/scripts/init.sh ${args}`;
 
 Utils.injectStyles("simple-bar-index-styles", [

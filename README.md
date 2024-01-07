@@ -4,6 +4,8 @@ A [yabai](https://github.com/koekeishiya/yabai) status bar widget for [Übersich
 
 [Website](https://www.jeantinland.com/en/toolbox/simple-bar) • [Documentation](https://www.jeantinland.com/en/toolbox/simple-bar/documentation)
 
+[`simple-bar-server`](https://github.com/Jean-Tinland/simple-bar-server) is available to trigger refresh and toggle widgets more efficiently with `curl` commands.
+
 A more "lite" & basic version is available [here](https://github.com/Jean-Tinland/simple-bar-lite).
 
 ## Features
@@ -16,6 +18,7 @@ Among the principal features of `simple-bar`, you'll find:
 - **Multi-monitor support**: enable individual widget on specific displays
 - Add your own custom widgets in settings (it displays scripts outputs)
 - **Refresh and toggle widgets on the fly** with `curl` commands by installing [simple-bar-server](https://github.com/Jean-Tinland/simple-bar-server) and enabling the server in settings
+- **Refresh spaces & processes** on the fly with `curl` commands by installing [simple-bar-server](https://github.com/Jean-Tinland/simple-bar-server#yabai) and enabling the right signales in your `.yabairc`(way faster than Übersicht refresh triggered by applescript)
 - **Extensible** themes system with 3 theme behaviors: **dark**, **light**, or **system**
 - Numerous customization options (try them out in settings)
 - A handfull selection of widgets
@@ -37,6 +40,12 @@ git clone https://github.com/Jean-Tinland/simple-bar $HOME/Library/Application\ 
 ```
 
 You'll find the full installation guide in the [documentation](https://www.jeantinland.com/en/toolbox/simple-bar/documentation/installation/).
+
+> [!NOTE]\
+> **For users having the latest M1 and M2 mac variants**, yabai is installed by default in `/opt/homebrew/bin/yabai`. You can set this path in the settings module allowing a custom yabai path. Same if you have installed yabai in a custom path for any reason.
+
+> [!TIP]
+> If you experience some freezing issues with Übersicht or if you simply want to improve `simple-bar` responsiveness & energy consumption, please try to switch to `simple-bar-server` in order to trigger refresh with `curl` commands. You'll find more information about it in the repo [here](https://github.com/Jean-Tinland/simple-bar-server).
 
 ## Special thanks
 
