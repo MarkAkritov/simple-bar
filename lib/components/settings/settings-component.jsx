@@ -1,5 +1,6 @@
 import * as Uebersicht from "uebersicht";
 import * as Utils from "../../utils";
+import * as Icons from "../icons.jsx";
 import * as Settings from "../../settings";
 
 const { React } = Uebersicht;
@@ -13,19 +14,19 @@ export default function Component({ closeSettings }) {
   const settings = Settings.get();
   const [newSettings, setNewSettings] = React.useState(settings);
 
-  const onTabClick = (tab) => {
+  const updateTab = (tab) => {
     setCurrentTab(tab);
     window.sessionStorage.setItem(LAST_CURRENT_TAB, tab);
   };
 
-  const onRefreshClick = async (e) => {
+  const refreshSimpleBar = async (e) => {
     Utils.clickEffect(e);
     setPendingChanges(0);
     await Settings.set(newSettings);
     Utils.hardRefresh();
   };
 
-  const onImportClick = async () => {
+  const importSettings = async () => {
     let fileExists = false;
     try {
       fileExists = Boolean(
@@ -41,7 +42,7 @@ export default function Component({ closeSettings }) {
     setNewSettings(externalConfig);
   };
 
-  const onExportClick = async () => {
+  const exportSettings = async () => {
     const { externalConfigFile } = newSettings.global;
     if (externalConfigFile) {
       await Uebersicht.run(
@@ -84,7 +85,7 @@ export default function Component({ closeSettings }) {
               "settings__tab--current": i === currentTab,
             });
             return (
-              <button key={i} className={classes} onClick={() => onTabClick(i)}>
+              <button key={i} className={classes} onClick={() => updateTab(i)}>
                 {label}
               </button>
             );
@@ -94,7 +95,7 @@ export default function Component({ closeSettings }) {
           {Object.keys(Settings.defaultSettings).map((key) => {
             const setting = Settings.data[key];
             if (!setting) return null;
-            const { label, infos } = setting;
+            const { label, infos, documentation } = setting;
             return (
               <div
                 key={key}
@@ -158,6 +159,20 @@ export default function Component({ closeSettings }) {
                     </React.Fragment>
                   );
                 })}
+                {documentation && (
+                  <div className="settings__documentation">
+                    <Icons.OpenBook className="settings__documentation-icon" />
+                    <span className="settings__documentation-title">
+                      You{"'"}ll find all the information about these settings{" "}
+                      <a
+                        href={`https://www.jeantinland.com/toolbox/simple-bar/documentation${documentation}`}
+                      >
+                        here on the documentation
+                      </a>{" "}
+                      hosted on jeantinland.com.
+                    </span>
+                  </div>
+                )}
                 {infos && infos.length && (
                   <div className="settings__infos">
                     <div className="settings__infos-title">Tips</div>
@@ -179,7 +194,7 @@ export default function Component({ closeSettings }) {
             <React.Fragment>
               <button
                 className="settings__import-button"
-                onClick={onImportClick}
+                onClick={importSettings}
                 disabled={!!pendingChanges}
               >
                 Import
@@ -187,7 +202,7 @@ export default function Component({ closeSettings }) {
               or
               <button
                 className="settings__export-button"
-                onClick={onExportClick}
+                onClick={exportSettings}
                 disabled={!!pendingChanges}
               >
                 Export
@@ -204,7 +219,7 @@ export default function Component({ closeSettings }) {
           )}
           <button
             className="settings__refresh-button"
-            onClick={onRefreshClick}
+            onClick={refreshSimpleBar}
             disabled={!pendingChanges}
           >
             Confirm changes and refresh simple-bar
