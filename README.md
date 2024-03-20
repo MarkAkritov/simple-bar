@@ -14,7 +14,7 @@ Among the principal features of `simple-bar`, you'll find:
 
 - **Show all opened apps** in every space
 - **Show all opened windows** on the current space and its current layout mode (bsp, stack, float)
-- Interactions: **navigate to workspace** or **focus window** on click, launch scripts, toggle states
+- Interactions: **focus window** on click, launch scripts, toggle states
 - **Multi-monitor support**: enable individual widget on specific displays
 - Add your own custom widgets in settings (it displays scripts outputs)
 - **Refresh and toggle widgets on the fly** with `curl` commands by installing [simple-bar-server](https://github.com/Jean-Tinland/simple-bar-server) and enabling the server in settings
@@ -22,6 +22,7 @@ Among the principal features of `simple-bar`, you'll find:
 - **Extensible** themes system with 3 theme behaviors: **dark**, **light**, or **system**
 - Numerous customization options (try them out in settings)
 - A handfull selection of widgets
+- Other features available only with SIP disabled and yabai scripting addition installed (**navigate to workspace**, **create new workspace on "+" click**, **move or destroy workspace on space hover**)
 
 [See all features in documentation](https://www.jeantinland.com/en/toolbox/simple-bar/documentation/features/).
 
@@ -51,6 +52,6 @@ You'll find the full installation guide in the [documentation](https://www.jeant
 
 I started this project with a simple idea and inspired by similar projects but over the year it has become a real community project. I want to thank everyone who contributed to this project, whether it's by opening issues, suggesting features, or even making pull requests. I also want to thank everyone who is using this project, i'm glad to see that it can be useful to others.
 
-So thank you [@Amar1729](https://github.com/Amar1729), [@yorhodes](https://github.com/yorhodes), [@ZhongXiLu](https://github.com/ZhongXiLu), [@jamieweavis](https://github.com/jamieweavis), [@kvndrsslr](https://github.com/kvndrsslr), [@rosenpin](https://github.com/rosenpin), [@MikoMagni](https://github.com/MikoMagni), [@anujc4](https://github.com/anujc4), [@SijanC147](https://github.com/SijanC147), [@donaldguy](https://github.com/donaldguy), [@d-miketa](https://github.com/d-miketa), [@izifortune](https://github.com/izifortune), [@theshortcut](https://github.com/theshortcut), [@jming422](https://github.com/jming422), [@s00500](https://github.com/s00500), [@spwx](https://github.com/spwx), [@basbebe](https://github.com/basbebe), [@is0n](https://github.com/is0n), [@Joroovb](https://github.com/Joroovb), [@Sylenss](https://github.com/Sylenss), [@mrzone64](https://github.com/mrzone64), [@devinbhatt](https://github.com/devinbhatt), [@mdwitr0](https://github.com/mdwitr0), [@wr1159](https://github.com/wr1159) and every other that are helping me improve this little project by adding icons, fixing what they can, and more...
+So thank you [@Amar1729](https://github.com/Amar1729), [@yorhodes](https://github.com/yorhodes), [@ZhongXiLu](https://github.com/ZhongXiLu), [@jamieweavis](https://github.com/jamieweavis), [@kvndrsslr](https://github.com/kvndrsslr), [@rosenpin](https://github.com/rosenpin), [@MikoMagni](https://github.com/MikoMagni), [@anujc4](https://github.com/anujc4), [@SijanC147](https://github.com/SijanC147), [@donaldguy](https://github.com/donaldguy), [@d-miketa](https://github.com/d-miketa), [@izifortune](https://github.com/izifortune), [@theshortcut](https://github.com/theshortcut), [@jming422](https://github.com/jming422), [@s00500](https://github.com/s00500), [@spwx](https://github.com/spwx), [@basbebe](https://github.com/basbebe), [@is0n](https://github.com/is0n), [@Joroovb](https://github.com/Joroovb), [@Sylenss](https://github.com/Sylenss), [@mrzone64](https://github.com/mrzone64), [@devinbhatt](https://github.com/devinbhatt), [@mdwitr0](https://github.com/mdwitr0), [@wr1159](https://github.com/wr1159), [@ardnep](https://github.com/ardnep), [@kntng](https://github.com/kntng) and every other that are helping me improve this little project by adding icons, fixing what they can, and more...
 
 I tried to keep track of everyone who contributed to this project in every page of the documentation. If you think I forgot you, please let me know. :)

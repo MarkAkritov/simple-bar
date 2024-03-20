@@ -13,6 +13,7 @@ export default function Window({ window }) {
     displayOnlyCurrent,
     hideWindowTitle,
     displayOnlyIcon,
+    expandAllProcesses,
     displayStackIndex,
     displayOnlyCurrentStack,
   } = settings.process;
@@ -57,6 +58,7 @@ export default function Window({ window }) {
   };
 
   const classes = Utils.classNames("process__window", {
+    "process__window--expanded": expandAllProcesses,
     "process__window--focused": !displayOnlyCurrent && isFocused,
     "process__window--only-current": displayOnlyCurrent,
     "process__window--only-icon": displayOnlyIcon,
