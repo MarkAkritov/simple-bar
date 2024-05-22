@@ -14,7 +14,7 @@ SIP=$(csrutil status)
 shadow_enabled=$($yabai_path -m config window_shadow)
 
 spaces=$($yabai_path -m query --spaces)
-windows=$($yabai_path -m query --windows | sed 's/\n//g')
+windows=$($yabai_path -m query --windows)
 displays=$($yabai_path -m query --displays)
 
 if [ -z "$spaces" ]; then
@@ -22,7 +22,7 @@ if [ -z "$spaces" ]; then
 fi
 
 if [ -z "$windows" ]; then
-    windows=$($yabai_path -m query --windows | sed 's/\\.//g; s/\n//g')
+    windows=$($yabai_path -m query --windows | sed 's/\\.//g;')
 fi
 
 if [ -z "$displays" ]; then
@@ -59,7 +59,11 @@ fi
 
 if [ $display_skhd_mode = "true" ]; then
   SCRIPT_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
-  skhd_mode=$(cat "$("${SCRIPT_DIR}"/yabai-set-mode.sh --query)")
+  if [ $disable_signals = "false" ]; then
+    skhd_mode=$(cat "$("${SCRIPT_DIR}"/yabai-set-mode.sh --query)")
+  else
+    skhd_mode=$(cat "$("${SCRIPT_DIR}"/yabai-set-mode-server.sh --query)")
+  fi
 else
   skhd_mode="{}"
 fi
@@ -75,4 +79,4 @@ echo $(cat <<-EOF
     "skhdMode": $skhd_mode
   }
 EOF
-)
+) | tr -d '\n' # removes newlines from output (handling Google Chrome JSON parse error caused by "search in page")
