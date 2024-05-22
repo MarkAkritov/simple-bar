@@ -133,7 +133,6 @@ function render({ output, error }) {
         </YabaiContextProvider>
         <Settings.Wrapper />
         <div className="simple-bar__data">
-          <UserWidgets />
           <Zoom.Widget />
           <BrowserTrack.Widget />
           <Spotify.Widget />
@@ -153,6 +152,9 @@ function render({ output, error }) {
           <Time.Widget />
           <DateDisplay.Widget />
         </div>
+        {/* <div className=".simple-bar--on-bottom"> */}
+        <UserWidgets />
+        {/* </div> */}
       </div>
     </SimpleBarContextProvider>
   );
