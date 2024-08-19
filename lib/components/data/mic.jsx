@@ -1,7 +1,8 @@
 import * as Uebersicht from "uebersicht";
 import * as DataWidget from "./data-widget.jsx";
 import * as DataWidgetLoader from "./data-widget-loader.jsx";
-import * as Icons from "../icons.jsx";
+import * as Icons from "../icons/icons.jsx";
+import { SuspenseIcon } from "../icons/icon.jsx";
 import useWidgetRefresh from "../../hooks/use-widget-refresh";
 import useServerSocket from "../../hooks/use-server-socket";
 import * as Utils from "../../utils";
@@ -77,7 +78,8 @@ export const Widget = React.memo(() => {
   const onMouseDown = () => setDragging(true);
   const onMouseUp = () => setDragging(false);
 
-  const fillerWidth = !volume ? volume : volume / 100 + 0.05;
+  const fillerWidth = volume || 0;
+  const formattedVolume = `${volume.toString().padStart(2, "0")}%`;
 
   const classes = Utils.classNames("mic", {
     "mic--dragging": dragging,
@@ -86,8 +88,10 @@ export const Widget = React.memo(() => {
   return (
     <DataWidget.Widget classes={classes} disableSlider>
       <div className="mic__display">
-        <Icon />
-        <span className="mic__value">{volume}%</span>
+        <SuspenseIcon>
+          <Icon />
+        </SuspenseIcon>
+        <span className="mic__value">{formattedVolume}</span>
       </div>
       <div className="mic__slider-container">
         <input
@@ -103,7 +107,7 @@ export const Widget = React.memo(() => {
         />
         <div
           className="mic__slider-filler"
-          style={{ transform: `scaleX(${fillerWidth})` }}
+          style={{ width: `${fillerWidth}%` }}
         />
       </div>
     </DataWidget.Widget>
