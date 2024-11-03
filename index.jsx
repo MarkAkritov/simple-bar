@@ -17,10 +17,20 @@ import * as Cpu from "./lib/components/data/cpu.jsx";
 import * as Crypto from "./lib/components/data/crypto.jsx";
 import * as DataWidgetLoader from "./lib/components/data/data-widget-loader.jsx";
 import * as DataWidget from "./lib/components/data/data-widget.jsx";
+import * as Graph from "./lib/components/data/graph.jsx";
+import * as Keyboard from "./lib/components/data/keyboard.jsx";
+import * as Mic from "./lib/components/data/mic.jsx";
+import * as Mpd from "./lib/components/data/mpd.jsx";
+import * as Music from "./lib/components/data/music.jsx";
+import * as Sound from "./lib/components/data/sound.jsx";
+import * as Specter from "./lib/components/data/specter.jsx";
+import * as Spotify from "./lib/components/data/spotify.jsx";
+import * as Stock from "./lib/components/data/stock.jsx";
+import * as ViscosityVPN from "./lib/components/data/viscosity-vpn.jsx";
+import * as Wifi from "./lib/components/data/wifi.jsx";
 import * as SideIcon from "./lib/components/side-icon.jsx";
 import * as Utils from "./lib/utils";
 import * as Settings from "./lib/settings";
-import * as Utils from "./lib/utils.js"
 
 const refreshFrequency = false;
 
